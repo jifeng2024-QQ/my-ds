@@ -5,20 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>读数训练</title>
     <style>
+        :root {
+            --vertical-offset: -100px; /* 默认不偏移，可以通过改变这个值来调整垂直位置 */
+        }
         body {
             font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
+            min-height: 100vh;
         }
         .container {
             text-align: center;
             width: 90%;
             max-width: 400px;
+            background-color: #f4f4f4; /* 背景色与body一致 */
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: var(--vertical-offset); /* 使用变量控制上边距 */
         }
         .title {
             font-size: 35px;
@@ -60,7 +68,6 @@
             font-size: 15px; /* 设置下拉菜单的字体大小 */
             padding: 5px; /* 可选：增加一些内边距使按钮更易点击 */
         }
-
         .options select option {
             font-size: 15px; /* 设置下拉菜单选项的字体大小 */
         }
@@ -77,6 +84,7 @@
             margin: 0 8px;
             font-size: 17px;
             cursor: pointer;
+            border-radius: 10px; /* 控制圆角大小 */
         }
     </style>
 </head>
