@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>读数训练</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .title {
+            font-size: 35px;
+            letter-spacing: 2px;
+            margin-bottom: 9px;
+        }
+        .subtitle {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        .subtitle .name {
+            color: black; /* 黑色字体 */
+        }
+        .subtitle .wechat {
+            display: block; /* 另起一行 */
+            color: #888; /* 灰色字体 */
+            font-size: 18px; /* 稍小的字体大小 */
+        }
+        .options {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center; /* 垂直居中 */
+            margin-bottom: 50px;
+            width: 100%;
+        }
+        .options div {
+            flex-basis: calc(33% - 6px); /* 调整每个选项的宽度 */
+            margin-bottom: 15px;
+            text-align: center; /* 文本居中 */
+        }
+        .options label {
+            font-size: 18px; /* 调整标签字体大小 */
+            margin-right: 7px;
+            margin-left: 7px; /* 设置标签的左外边距 */
+            font-weight: bold; /* 加粗标签 */
+        }
+        .options select {
+            font-size: 15px; /* 设置下拉菜单的字体大小 */
+            padding: 5px; /* 可选：增加一些内边距使按钮更易点击 */
+        }
+
+        .options select option {
+            font-size: 15px; /* 设置下拉菜单选项的字体大小 */
+        }
+        .number-display {
+            font-size: 33px;
+            font-weight: bold;
+            margin-bottom: 100px;
+        }
+        .buttons {
+            margin-top: 100px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 0 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">读数训练</h1>
+        <div class="subtitle">
+            <span class="name">世界记忆大师 邱利军</span>
+            <span class="wechat">（微：qljcjjy）</span>
+        </div>
+        <div class="options">
+            <div>
+                <label for="number-count">数字总量</label>
+                <select id="number-count">
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                    <option value="5000">5000</option>
+                </select>
+            </div>
+            <div>
+                <label for="digit-length">闪视位数</label>
+                <select id="digit-length">
+                    <option value="2">2位</option>
+                    <option value="4">4位</option>
+                    <option value="6">6位</option>
+                    <option value="8">8位</option>
+                </select>
+            </div>
+            <div>
+                <label for="flash-rate">闪视频率</label>
+                <select id="flash-rate">
+                    <option value="2">2秒</option>
+                    <option value="1">1秒</option>
+                    <option value="0.7">0.7秒</option>
+                    <option value="0.5">0.5秒</option>
+                </select>
+            </div>
+        </div>
+        <div class="number-display" id="number-display">-</div>
+        <div class="buttons">
+            <button id="start-button">开始读数</button>
+            <button id="stop-button">停止读数</button>
+        </div>
+    </div>
+    <script>
+        let intervalId = null;
+        let totalNumbers = 0;
+        let digitLength = 0;
+        let flashRate = 0;
+        let count = 0;
+
+        function generateNumber(length) {
+            let number = '';
+            for (let i = 0; i < length; i++) {
+                number += Math.floor(Math.random() * 10);
+            }
+            return number;
+        }
+
+        function startFlashing() {
+            const numberCount = parseInt(document.getElementById('number-count').value);
+            const selectedDigitLength = parseInt(document.getElementById('digit-length').value);
+            const selectedFlashRate = parseFloat(document.getElementById('flash-rate').value);
+            totalNumbers = numberCount;
+            digitLength = selectedDigitLength;
+            flashRate = selectedFlashRate;
+            count = 0;
+            const numberDisplay = document.getElementById('number-display');
+
+            intervalId = setInterval(() => {
+                if (count < totalNumbers / digitLength) {
+                    numberDisplay.textContent = generateNumber(digitLength);
+                    count++;
+                } else {
+                    clearInterval(intervalId);
+                    numberDisplay.textContent = '-';
+                }
+            }, flashRate * 1000);
+        }
+
+        function stopFlashing() {
+            clearInterval(intervalId);
+            document.getElementById('number-display').textContent = '-';
+            count = 0; // Reset count to allow for a fresh start
+        }
+
+        document.getElementById('start-button').addEventListener('click', startFlashing);
+        document.getElementById('stop-button').addEventListener('click', stopFlashing);
+    </script>
+</body>
+</html>
